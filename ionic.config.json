@@ -1,0 +1,7 @@
+{
+  "name": "jublia-pokedex",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
