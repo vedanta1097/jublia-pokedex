@@ -1,8 +1,7 @@
 {
   "name": "jublia-pokedex",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Vedanta",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -43,5 +42,5 @@
     "typescript-eslint": "^8.61.0",
     "vitest": "^4.0.8"
   },
-  "description": "An Ionic project"
+  "description": "A cross-platform Pokédex built with Angular, Ionic, and Capacitor"
 }
