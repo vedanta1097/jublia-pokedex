@@ -2,19 +2,86 @@
   <div class="app-page app-page--detail">
     <a class="back-link" routerLink="/pokemon">Back to Pokédex</a>
 
-    <section class="placeholder-panel" aria-labelledby="pokemon-detail-status">
-      <img
-        class="placeholder-panel__image"
-        src="assets/pokeball.png"
-        width="230"
-        height="200"
-        alt=""
-      />
-      <p class="page-eyebrow">Pokédex entry {{ id() ?? "unknown" }}</p>
-      <h1 id="pokemon-detail-status" class="placeholder-panel__title">Details are being researched</h1>
-      <p class="placeholder-panel__description">
-        This route is ready for artwork, abilities, measurements, and base statistics.
-      </p>
-    </section>
+    @if (loading()) {
+      <section class="detail-loading" aria-labelledby="pokemon-loading-title" aria-busy="true">
+        <ion-spinner name="crescent" aria-hidden="true" />
+        <h1 id="pokemon-loading-title">Loading Pokémon…</h1>
+      </section>
+    } @else if (pokemon(); as item) {
+      <article class="pokemon-detail" aria-labelledby="pokemon-name">
+        <section class="pokemon-detail__hero">
+          <img
+            [src]="item.imageUrl"
+            [alt]="item.displayName + ' official artwork'"
+            width="475"
+            height="475"
+            (error)="useFallbackImage($event)"
+          />
+        </section>
+
+        <div class="pokemon-detail__content">
+          <p class="page-eyebrow">Pokédex #{{ item.id }}</p>
+          <h1 id="pokemon-name">{{ item.displayName }}</h1>
+          <ul class="pokemon-detail__types" aria-label="Types">
+            @for (type of item.types; track type.name) {
+              <li [class]="'type-badge type-badge--' + type.name">{{ type.displayName }}</li>
+            }
+          </ul>
+
+          <section class="detail-section" aria-labelledby="measurements-title">
+            <h2 id="measurements-title">Measurements</h2>
+            <dl class="measurements">
+              <div>
+                <dt>Height</dt>
+                <dd>{{ item.heightDecimetres / 10 }} m</dd>
+              </div>
+              <div>
+                <dt>Weight</dt>
+                <dd>{{ item.weightHectograms / 10 }} kg</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="detail-section" aria-labelledby="abilities-title">
+            <h2 id="abilities-title">Abilities</h2>
+            <ul class="abilities">
+              @for (ability of item.abilities; track ability.name) {
+                <li>
+                  {{ ability.displayName }}
+                  @if (ability.isHidden) {
+                    <span>Hidden</span>
+                  }
+                </li>
+              }
+            </ul>
+          </section>
+
+          <section class="detail-section" aria-labelledby="stats-title">
+            <h2 id="stats-title">Base stats</h2>
+            <dl class="base-stats">
+              @for (stat of item.stats; track stat.name) {
+                <div>
+                  <dt>{{ stat.displayName }}</dt>
+                  <dd>{{ stat.value }}</dd>
+                </div>
+              }
+            </dl>
+          </section>
+        </div>
+      </article>
+    } @else {
+      <section class="state-panel" aria-live="polite">
+        <img class="state-panel__image" src="assets/pokemon-error.png" width="250" height="300" alt="" />
+        @if (notFound()) {
+          <h1>Pokémon not found</h1>
+          <p>We couldn’t find Pokédex entry #{{ id() }}.</p>
+        } @else {
+          <h1>We couldn’t load this Pokémon</h1>
+          <p>Check your connection and try again.</p>
+          <ion-button (click)="retryLoad()">Try again</ion-button>
+        }
+        <a class="text-link" routerLink="/pokemon">Browse Pokémon</a>
+      </section>
+    }
   </div>
 </ion-content>

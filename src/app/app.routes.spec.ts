@@ -18,10 +18,10 @@ describe('application routes', () => {
       .toContain('Meet every Pokémon.');
   });
 
-  it('binds the route ID on the Pokémon detail page', async () => {
+  it('opens the Pokémon detail page from its route', async () => {
     const harness = await RouterTestingHarness.create('/pokemon/25');
 
-    expect(harness.routeNativeElement?.textContent).toContain('Pokédex entry 25');
+    expect(harness.routeNativeElement?.textContent).toContain('Loading Pokémon…');
   });
 
   it('opens favourites and redirects unknown paths to the Pokédex', async () => {

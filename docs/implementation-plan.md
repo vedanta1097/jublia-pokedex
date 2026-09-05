@@ -451,11 +451,11 @@ feat: add pokemon type filtering
 
 ### Phase 5 - Pokémon details
 
-- [ ] Add lazy-loaded detail route.
-- [ ] Build detail loading, success, error, and not-found states.
-- [ ] Present artwork, measurements, abilities, and base stats.
-- [ ] Add resilient image fallback.
-- [ ] Test route-input and view-state behavior.
+- [x] Add lazy-loaded detail route.
+- [x] Build detail loading, success, error, and not-found states.
+- [x] Present artwork, measurements, abilities, and base stats.
+- [x] Add resilient image fallback.
+- [x] Test route-input and view-state behavior.
 
 Suggested commit:
 
