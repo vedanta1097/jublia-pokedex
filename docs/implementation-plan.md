@@ -389,11 +389,11 @@ chore: configure project foundation and assets
 
 ### Phase 1 - Domain and API foundation
 
-- [ ] Add environment-based PokéAPI base URL.
-- [ ] Define external API DTOs and internal Pokémon models.
-- [ ] Implement and unit-test response mapping.
-- [ ] Implement typed API requests for Pokémon, details, and types.
-- [ ] Add bounded request concurrency and in-memory detail caching.
+- [x] Add environment-based PokéAPI base URL.
+- [x] Define external API DTOs and internal Pokémon models.
+- [x] Implement and unit-test response mapping.
+- [x] Implement typed API requests for Pokémon, details, and types.
+- [x] Add bounded request concurrency and in-memory detail caching.
 
 Suggested commits:
 
