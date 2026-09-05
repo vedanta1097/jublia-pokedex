@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.app-page--detail {
+  padding-top: var(--app-space-6);
+}
+
+.back-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  color: var(--app-color-primary);
+  font-weight: 750;
+  text-decoration-thickness: 0.125rem;
+  text-underline-offset: 0.2rem;
+}
+
+.placeholder-panel {
+  margin-top: var(--app-space-5);
+}
+
+.placeholder-panel .page-eyebrow {
+  margin-top: var(--app-space-5);
+  margin-bottom: 0;
+}
+
+.placeholder-panel__title {
+  margin-top: var(--app-space-3);
+}

@@ -2,12 +2,27 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    path: 'pokemon/:id',
+    loadComponent: () => import('./pokemon/pokemon-detail/pokemon-detail.page')
+      .then((module) => module.PokemonDetailPage),
+  },
+  {
+    path: 'pokemon',
+    loadComponent: () => import('./pokemon/pokemon-list/pokemon-list.page')
+      .then((module) => module.PokemonListPage),
+  },
+  {
+    path: 'favourites',
+    loadComponent: () => import('./favourites/favourite-list/favourite-list.page')
+      .then((module) => module.FavouriteListPage),
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'pokemon',
     pathMatch: 'full',
+  },
+  {
+    path: '**',
+    redirectTo: 'pokemon',
   },
 ];

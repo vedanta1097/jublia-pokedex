@@ -18,20 +18,286 @@
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
-/* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+html,
+body {
+  background: var(--app-color-canvas);
+}
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+body {
+  margin: 0;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+  background: var(--app-color-canvas);
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: calc(var(--ion-safe-area-top, 0px) + var(--app-space-2));
+  left: var(--app-space-3);
+  padding: var(--app-space-3) var(--app-space-4);
+  border-radius: var(--app-radius-md);
+  background: var(--app-color-ink);
+  color: var(--app-color-on-dark);
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transform: translateY(-160%);
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.app-header {
+  z-index: 10;
+  padding-top: var(--ion-safe-area-top, 0px);
+  border-bottom: 1px solid var(--app-color-border);
+  background: color-mix(in srgb, var(--app-color-surface) 94%, transparent);
+  box-shadow: var(--app-shadow-sm);
+}
+
+.app-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.5rem;
+  max-width: var(--app-content-max-width);
+  margin: 0 auto;
+  padding: var(--app-space-2) var(--app-page-gutter);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  color: var(--app-color-ink);
+  text-decoration: none;
+}
+
+.brand__logo {
+  display: block;
+  width: 6.75rem;
+  height: auto;
+}
+
+.brand__name {
+  display: none;
+  font-size: var(--app-font-size-lg);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.desktop-nav {
+  display: none;
+  align-items: center;
+  gap: var(--app-space-2);
+}
+
+.nav-link {
+  padding: var(--app-space-3) var(--app-space-4);
+  border-radius: var(--app-radius-pill);
+  color: var(--app-color-muted);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 160ms ease, background-color 160ms ease;
+}
+
+.nav-link:hover {
+  color: var(--app-color-ink);
+  background: var(--app-color-accent-soft);
+}
+
+.nav-link--active {
+  color: var(--app-color-on-primary);
+  background: var(--app-color-primary);
+}
+
+.app-shell__outlet {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  contain: size style;
+}
+
+.mobile-nav {
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--app-space-2);
+  padding: var(--app-space-2) var(--app-page-gutter)
+    calc(var(--app-space-2) + var(--ion-safe-area-bottom, 0px));
+  border-top: 1px solid var(--app-color-border);
+  background: var(--app-color-surface);
+  box-shadow: var(--app-shadow-nav);
+}
+
+.mobile-nav__link {
+  display: flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-2);
+  border-radius: var(--app-radius-md);
+  color: var(--app-color-muted);
+  font-size: var(--app-font-size-sm);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.mobile-nav__marker {
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+}
+
+.mobile-nav__link--active {
+  color: var(--app-color-primary);
+  background: var(--app-color-primary-soft);
+}
+
+.mobile-nav__link--active .mobile-nav__marker {
+  border-color: var(--app-color-accent);
+  background: var(--app-color-accent);
+}
+
+a,
+button,
+[tabindex] {
+  outline-offset: 0.2rem;
+}
+
+:focus-visible {
+  outline: 0.1875rem solid var(--app-color-on-primary);
+  box-shadow: 0 0 0 0.375rem var(--app-color-primary);
+}
+
+.app-page {
+  width: min(100%, var(--app-content-max-width));
+  min-height: 100%;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 7vw, 5rem) var(--app-page-gutter);
+}
+
+.page-intro {
+  max-width: 46rem;
+}
+
+.page-eyebrow {
+  margin: 0 0 var(--app-space-3);
+  color: var(--app-color-primary);
+  font-size: var(--app-font-size-xs);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.page-title {
+  margin: 0;
+  color: var(--app-color-ink);
+  font-size: var(--app-font-size-xl);
+  font-weight: 850;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+.page-description {
+  max-width: 38rem;
+  margin: var(--app-space-5) 0 0;
+  color: var(--app-color-muted);
+  font-size: var(--app-font-size-lg);
+  line-height: 1.65;
+}
+
+.placeholder-panel {
+  display: grid;
+  justify-items: center;
+  max-width: 42rem;
+  margin: var(--app-space-7) auto 0;
+  padding: clamp(2rem, 8vw, 4rem);
+  border: 1px solid var(--app-color-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-color-surface-raised);
+  box-shadow: var(--app-shadow-md);
+  text-align: center;
+}
+
+.placeholder-panel__image {
+  width: min(10rem, 45vw);
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.placeholder-panel__title {
+  margin: var(--app-space-5) 0 var(--app-space-2);
+  color: var(--app-color-ink);
+  font-size: clamp(1.35rem, 5vw, 1.75rem);
+}
+
+.placeholder-panel__description {
+  max-width: 32rem;
+  margin: 0;
+  color: var(--app-color-muted);
+  line-height: 1.6;
+}
+
+.text-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  margin-top: var(--app-space-5);
+  padding: 0 var(--app-space-5);
+  border-radius: var(--app-radius-pill);
+  background: var(--app-color-primary);
+  color: var(--app-color-on-primary);
+  font-weight: 750;
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media (min-width: 48rem) {
+  .app-shell {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .app-header__inner {
+    justify-content: space-between;
+  }
+
+  .brand__logo {
+    width: 7.5rem;
+  }
+
+  .brand__name,
+  .desktop-nav {
+    display: flex;
+  }
+
+  .mobile-nav {
+    display: none;
+  }
+}

@@ -1,3 +1,71 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <div class="app-shell">
+    <button class="skip-link" type="button" (click)="focusMainContent()">
+      Skip to main content
+    </button>
+
+    <header class="app-header">
+      <div class="app-header__inner">
+        <a class="brand" routerLink="/pokemon" aria-label="Jublia Pokédex home">
+          <img
+            class="brand__logo"
+            ngSrc="assets/pokemon-logo.png"
+            width="300"
+            height="145"
+            priority
+            alt="Pokémon"
+          />
+          <span class="brand__name">Jublia Pokédex</span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a
+            class="nav-link"
+            routerLink="/pokemon"
+            routerLinkActive="nav-link--active"
+            ariaCurrentWhenActive="page"
+          >
+            Pokédex
+          </a>
+          <a
+            class="nav-link"
+            routerLink="/favourites"
+            routerLinkActive="nav-link--active"
+            ariaCurrentWhenActive="page"
+          >
+            Favourites
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <ion-router-outlet
+      #mainContent
+      id="main-content"
+      class="app-shell__outlet"
+      tabindex="-1"
+      aria-label="Page content"
+    ></ion-router-outlet>
+
+    <nav class="mobile-nav" aria-label="Primary navigation">
+      <a
+        class="mobile-nav__link"
+        routerLink="/pokemon"
+        routerLinkActive="mobile-nav__link--active"
+        ariaCurrentWhenActive="page"
+      >
+        <span class="mobile-nav__marker" aria-hidden="true"></span>
+        Pokédex
+      </a>
+      <a
+        class="mobile-nav__link"
+        routerLink="/favourites"
+        routerLinkActive="mobile-nav__link--active"
+        ariaCurrentWhenActive="page"
+      >
+        <span class="mobile-nav__marker" aria-hidden="true"></span>
+        Favourites
+      </a>
+    </nav>
+  </div>
 </ion-app>

@@ -404,11 +404,11 @@ feat: add typed pokeapi data access
 
 ### Phase 2 - Application shell and theme
 
-- [ ] Replace the Ionic starter screen.
-- [ ] Define colour, typography, spacing, radius, and elevation tokens.
-- [ ] Define accessible Pokémon type colours.
-- [ ] Build responsive application navigation.
-- [ ] Add routes for list, detail, and favourites.
+- [x] Replace the Ionic starter screen.
+- [x] Define colour, typography, spacing, radius, and elevation tokens.
+- [x] Define accessible Pokémon type colours.
+- [x] Build responsive application navigation.
+- [x] Add routes for list, detail, and favourites.
 
 Suggested commit:
 

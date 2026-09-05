@@ -1,0 +1,20 @@
+<ion-content>
+  <div class="app-page app-page--detail">
+    <a class="back-link" routerLink="/pokemon">Back to Pokédex</a>
+
+    <section class="placeholder-panel" aria-labelledby="pokemon-detail-status">
+      <img
+        class="placeholder-panel__image"
+        src="assets/pokeball.png"
+        width="230"
+        height="200"
+        alt=""
+      />
+      <p class="page-eyebrow">Pokédex entry {{ id() ?? "unknown" }}</p>
+      <h1 id="pokemon-detail-status" class="placeholder-panel__title">Details are being researched</h1>
+      <p class="placeholder-panel__description">
+        This route is ready for artwork, abilities, measurements, and base statistics.
+      </p>
+    </section>
+  </div>
+</ion-content>

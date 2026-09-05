@@ -1,2 +1,77 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+:root {
+  color-scheme: light;
+
+  --ion-font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --ion-background-color: #f5f7fb;
+  --ion-background-color-rgb: 245, 247, 251;
+  --ion-text-color: #172033;
+  --ion-text-color-rgb: 23, 32, 51;
+
+  --ion-color-primary: #2356a8;
+  --ion-color-primary-rgb: 35, 86, 168;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #1f4c94;
+  --ion-color-primary-tint: #3967b1;
+
+  --app-color-canvas: #f5f7fb;
+  --app-color-surface: #ffffff;
+  --app-color-surface-raised: #ffffff;
+  --app-color-ink: #172033;
+  --app-color-muted: #58647a;
+  --app-color-border: #dbe1eb;
+  --app-color-primary: #2356a8;
+  --app-color-primary-soft: #e7eefb;
+  --app-color-on-primary: #ffffff;
+  --app-color-accent: #b83d42;
+  --app-color-accent-soft: #fff0e0;
+  --app-color-gold: #f2bd24;
+  --app-color-on-dark: #ffffff;
+
+  --app-type-normal: #595f69;
+  --app-type-fire: #ad3b1e;
+  --app-type-water: #28649e;
+  --app-type-electric: #796100;
+  --app-type-grass: #34743a;
+  --app-type-ice: #24717a;
+  --app-type-fighting: #922f31;
+  --app-type-poison: #77408d;
+  --app-type-ground: #72591f;
+  --app-type-flying: #55549a;
+  --app-type-psychic: #9e355e;
+  --app-type-bug: #596b22;
+  --app-type-rock: #6d5d24;
+  --app-type-ghost: #57477c;
+  --app-type-dragon: #423b91;
+  --app-type-dark: #4e423e;
+  --app-type-steel: #4f6570;
+  --app-type-fairy: #963f70;
+
+  --app-space-1: 0.25rem;
+  --app-space-2: 0.5rem;
+  --app-space-3: 0.75rem;
+  --app-space-4: 1rem;
+  --app-space-5: 1.5rem;
+  --app-space-6: 2rem;
+  --app-space-7: 3rem;
+  --app-space-8: 4rem;
+
+  --app-font-size-xs: 0.75rem;
+  --app-font-size-sm: 0.875rem;
+  --app-font-size-base: 1rem;
+  --app-font-size-lg: 1.125rem;
+  --app-font-size-xl: clamp(2.25rem, 8vw, 4.5rem);
+
+  --app-radius-sm: 0.5rem;
+  --app-radius-md: 0.875rem;
+  --app-radius-lg: 1.5rem;
+  --app-radius-pill: 999px;
+
+  --app-shadow-sm: 0 0.25rem 1rem rgb(23 32 51 / 8%);
+  --app-shadow-md: 0 1rem 2.5rem rgb(23 32 51 / 12%);
+  --app-shadow-nav: 0 -0.5rem 1.5rem rgb(23 32 51 / 8%);
+
+  --app-page-gutter: clamp(1rem, 4vw, 2rem);
+  --app-content-max-width: 75rem;
+}
