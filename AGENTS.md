@@ -11,6 +11,11 @@
 - Build one maintainable Pokédex for desktop web, mobile web, native iOS, and native Android.
 - Use Angular, Ionic, and Capacitor as specified in the implementation plan.
 - Keep the solution intentionally simple. Do not add speculative features or abstractions without a concrete need.
+- Prefer code that is easy to understand and explain. Choose direct, descriptive state and control flow over clever or highly generalized solutions.
+- Do not store the same UI concept in multiple state variables. Add a separate state or abstraction only when it represents meaningfully different behavior.
+- Keep only complexity required by current product behavior. Do not add configurability, validation, caching strategies, or concurrency handling for scenarios the application does not actually have.
+- Prefer fixed constants and successful-value caches when they satisfy the current use case. Use more advanced patterns, such as caching Observables or deduplicating simultaneous requests, only when the application has that concrete requirement.
+- Trust typed API contracts where appropriate. Add defensive parsing or normalization only for realistic input or failure cases at the application boundary.
 - Preserve user-provided assets and documents unless the user explicitly asks to change or remove them.
 
 ## Angular conventions

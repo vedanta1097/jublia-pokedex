@@ -1,0 +1,30 @@
+<article class="pokemon-card">
+  <a
+    class="pokemon-card__link"
+    [routerLink]="['/pokemon', pokemon().id]"
+    [attr.aria-label]="'View details for ' + pokemon().displayName"
+  >
+    <div class="pokemon-card__artwork">
+      <span class="pokemon-card__number">{{ pokedexNumber() }}</span>
+      <img
+        [src]="pokemon().imageUrl"
+        [alt]="pokemon().displayName + ' official artwork'"
+        width="240"
+        height="240"
+        loading="lazy"
+        (error)="useFallbackImage($event)"
+      />
+    </div>
+
+    <div class="pokemon-card__body">
+      <h2>{{ pokemon().displayName }}</h2>
+      <ul class="pokemon-card__types" aria-label="Types">
+        @for (type of pokemon().types; track type.name) {
+          <li [class]="'type-badge type-badge--' + type.name">
+            {{ type.displayName }}
+          </li>
+        }
+      </ul>
+    </div>
+  </a>
+</article>

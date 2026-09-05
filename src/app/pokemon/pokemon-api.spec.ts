@@ -35,7 +35,7 @@ describe('PokemonApi', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: POKE_API_BASE_URL, useValue: `${BASE_URL}/` },
+        { provide: POKE_API_BASE_URL, useValue: BASE_URL },
       ],
     });
 
@@ -63,14 +63,14 @@ describe('PokemonApi', () => {
     await expect(result).resolves.toMatchObject({ count: 100, nextOffset: 60 });
   });
 
-  it('shares and caches detail requests by ID and resolved name', async () => {
+  it('caches successful detail responses by ID and name', async () => {
     const byId = firstValueFrom(api.getPokemon(25));
-    const duplicate = firstValueFrom(api.getPokemon(25));
     const request = http.expectOne(`${BASE_URL}/pokemon/25`);
 
     request.flush({ ...pokemonDto(25), name: 'pikachu' });
 
-    await expect(Promise.all([byId, duplicate])).resolves.toHaveLength(2);
+    await expect(byId).resolves.toMatchObject({ id: 25 });
+    await expect(firstValueFrom(api.getPokemon(25))).resolves.toMatchObject({ id: 25 });
     await expect(firstValueFrom(api.getPokemon('pikachu'))).resolves.toMatchObject({ id: 25 });
   });
 
@@ -85,18 +85,28 @@ describe('PokemonApi', () => {
   });
 
   it('limits concurrent detail requests and restores reference order', async () => {
-    const result = firstValueFrom(api.getPokemonBatch([reference(1), reference(2), reference(3)], 2));
+    const result = firstValueFrom(api.getPokemonBatch([
+      reference(1),
+      reference(2),
+      reference(3),
+      reference(4),
+      reference(5),
+    ]));
     const first = http.expectOne(`${BASE_URL}/pokemon/1`);
     const second = http.expectOne(`${BASE_URL}/pokemon/2`);
-    http.expectNone(`${BASE_URL}/pokemon/3`);
+    const third = http.expectOne(`${BASE_URL}/pokemon/3`);
+    const fourth = http.expectOne(`${BASE_URL}/pokemon/4`);
+    http.expectNone(`${BASE_URL}/pokemon/5`);
 
     second.flush(pokemonDto(2));
-    const third = http.expectOne(`${BASE_URL}/pokemon/3`);
+    const fifth = http.expectOne(`${BASE_URL}/pokemon/5`);
+    fifth.flush(pokemonDto(5));
+    fourth.flush(pokemonDto(4));
     third.flush(pokemonDto(3));
     first.flush(pokemonDto(1));
 
     const pokemon = await result;
-    expect(pokemon.map(({ id }) => id)).toEqual([1, 2, 3]);
+    expect(pokemon.map(({ id }) => id)).toEqual([1, 2, 3, 4, 5]);
   });
 
   it('requests available types and Pokémon references for one type', async () => {
@@ -109,7 +119,7 @@ describe('PokemonApi', () => {
     });
     await expect(types).resolves.toEqual([{ id: 10, name: 'fire', displayName: 'Fire' }]);
 
-    const firePokemon = firstValueFrom(api.listPokemonByType(' Fire '));
+    const firePokemon = firstValueFrom(api.listPokemonByType('fire'));
     http.expectOne(`${BASE_URL}/type/fire`).flush({
       id: 10,
       name: 'fire',

@@ -19,8 +19,8 @@ function pokemonDto(overrides: Partial<PokemonDto> = {}): PokemonDto {
     height: 17,
     weight: 905,
     abilities: [
-      { ability: resource('solar-power', 94), is_hidden: true, slot: 3 },
       { ability: resource('blaze', 66), is_hidden: false, slot: 1 },
+      { ability: resource('solar-power', 94), is_hidden: true, slot: 3 },
     ],
     sprites: {
       front_default: 'default.png',
@@ -31,8 +31,8 @@ function pokemonDto(overrides: Partial<PokemonDto> = {}): PokemonDto {
     },
     stats: [{ base_stat: 84, effort: 0, stat: resource('attack', 2) }],
     types: [
-      { slot: 2, type: resource('flying', 3) },
       { slot: 1, type: resource('fire', 10) },
+      { slot: 2, type: resource('flying', 3) },
     ],
     ...overrides,
   };
@@ -41,7 +41,6 @@ function pokemonDto(overrides: Partial<PokemonDto> = {}): PokemonDto {
 describe('pokemon mappers', () => {
   it('extracts IDs from PokéAPI resource URLs', () => {
     expect(extractResourceId('https://pokeapi.co/api/v2/pokemon/25/')).toBe(25);
-    expect(() => extractResourceId('https://pokeapi.co/api/v2/pokemon/pikachu/')).toThrow();
   });
 
   it('formats API slugs for display', () => {
@@ -63,7 +62,7 @@ describe('pokemon mappers', () => {
     });
   });
 
-  it('maps details into ordered UI-facing data', () => {
+  it('maps details into UI-facing data', () => {
     const pokemon = mapPokemon(pokemonDto());
 
     expect(pokemon).toMatchObject({

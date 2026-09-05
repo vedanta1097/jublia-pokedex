@@ -418,13 +418,13 @@ feat: add responsive app shell and theme
 
 ### Phase 3 - Pokémon browsing
 
-- [ ] Build the reusable Pokémon card.
-- [ ] Build the responsive list grid.
-- [ ] Load the initial page.
-- [ ] Add infinite scrolling and pagination guards.
-- [ ] Add initial and incremental loading states.
-- [ ] Add retryable error state using `pokemon-error.png`.
-- [ ] Add relevant component and data-flow tests.
+- [x] Build the reusable Pokémon card.
+- [x] Build the responsive list grid.
+- [x] Load the initial page.
+- [x] Add infinite scrolling and pagination guards.
+- [x] Add initial and incremental loading states.
+- [x] Add retryable error state using `pokemon-error.png`.
+- [x] Add relevant component and data-flow tests.
 
 Suggested commits:
 

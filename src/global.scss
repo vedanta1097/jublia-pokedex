@@ -186,6 +186,63 @@ button,
   box-shadow: 0 0 0 0.375rem var(--app-color-primary);
 }
 
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
+.type-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--app-radius-pill);
+  background: var(--app-type-normal);
+  color: var(--app-color-on-dark);
+  font-size: var(--app-font-size-xs);
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+@each $type in normal, fire, water, electric, grass, ice, fighting, poison, ground,
+  flying, psychic, bug, rock, ghost, dragon, dark, steel, fairy {
+  .type-badge--#{$type} {
+    background: var(--app-type-#{$type});
+  }
+}
+
+.state-panel {
+  display: grid;
+  justify-items: center;
+  max-width: 40rem;
+  margin: var(--app-space-8) auto 0;
+  padding: clamp(1.5rem, 6vw, 3.5rem);
+  border: 1px solid var(--app-color-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-color-surface-raised);
+  box-shadow: var(--app-shadow-md);
+  text-align: center;
+}
+
+.state-panel__image {
+  width: min(10rem, 42vw);
+  height: auto;
+}
+
+.state-panel h2 {
+  margin: var(--app-space-5) 0 var(--app-space-2);
+  color: var(--app-color-ink);
+}
+
+.state-panel p {
+  max-width: 30rem;
+  margin: 0 0 var(--app-space-4);
+  color: var(--app-color-muted);
+  line-height: 1.6;
+}
+
 .app-page {
   width: min(100%, var(--app-content-max-width));
   min-height: 100%;

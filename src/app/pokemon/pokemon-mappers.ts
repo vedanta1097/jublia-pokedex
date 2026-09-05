@@ -14,20 +14,12 @@ import {
 export const POKEMON_IMAGE_FALLBACK = 'assets/pokemon-error.png';
 
 export function extractResourceId(url: string): number {
-  const match = /\/(\d+)\/?(?:\?.*)?$/.exec(url);
-  const id = match ? Number(match[1]) : Number.NaN;
-
-  if (!Number.isInteger(id) || id < 1) {
-    throw new Error(`Unable to extract a resource ID from "${url}".`);
-  }
-
-  return id;
+  return Number(url.split('/').filter(Boolean).at(-1));
 }
 
 export function formatPokemonName(name: string): string {
   return name
     .split('-')
-    .filter(Boolean)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(' ');
 }
@@ -53,9 +45,6 @@ export function mapPokemonReferencePage(
 }
 
 export function mapPokemon(response: PokemonDto): Pokemon {
-  const orderedTypes = [...response.types].sort((left, right) => left.slot - right.slot);
-  const orderedAbilities = [...response.abilities].sort((left, right) => left.slot - right.slot);
-
   return {
     id: response.id,
     name: response.name,
@@ -63,7 +52,7 @@ export function mapPokemon(response: PokemonDto): Pokemon {
     imageUrl: selectPokemonImage(response),
     heightDecimetres: response.height,
     weightHectograms: response.weight,
-    abilities: orderedAbilities.map(({ ability, is_hidden: isHidden }) => ({
+    abilities: response.abilities.map(({ ability, is_hidden: isHidden }) => ({
       name: ability.name,
       displayName: formatPokemonName(ability.name),
       isHidden,
@@ -73,7 +62,7 @@ export function mapPokemon(response: PokemonDto): Pokemon {
       displayName: formatPokemonName(stat.name),
       value,
     })),
-    types: orderedTypes.map(({ type }) => ({
+    types: response.types.map(({ type }) => ({
       name: type.name,
       displayName: formatPokemonName(type.name),
     })),
@@ -88,11 +77,7 @@ export function selectPokemonImage(response: PokemonDto): string {
 }
 
 export function mapPokemonTypes(response: NamedApiResourceListDto): PokemonTypeReference[] {
-  return response.results.map((resource) => ({
-    id: extractResourceId(resource.url),
-    name: resource.name,
-    displayName: formatPokemonName(resource.name),
-  }));
+  return response.results.map(mapPokemonReference);
 }
 
 export function mapPokemonByType(response: PokemonTypeDto): PokemonReference[] {

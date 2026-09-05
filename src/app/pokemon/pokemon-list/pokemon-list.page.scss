@@ -17,3 +17,110 @@
   background: var(--app-color-accent);
   content: "";
 }
+
+.pokemon-results {
+  margin-top: var(--app-space-8);
+}
+
+.results-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--app-space-4);
+  margin-bottom: var(--app-space-5);
+}
+
+.results-heading h2,
+.results-heading p {
+  margin: 0;
+}
+
+.results-heading h2 {
+  color: var(--app-color-ink);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.results-heading p {
+  color: var(--app-color-muted);
+  font-size: var(--app-font-size-sm);
+  font-weight: 700;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+  gap: var(--app-space-5);
+}
+
+.load-more-error {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--app-space-4);
+  max-width: 42rem;
+  margin: var(--app-space-6) auto 0;
+  padding: var(--app-space-4);
+  border: 1px solid var(--app-color-border);
+  border-radius: var(--app-radius-md);
+  background: var(--app-color-surface-raised);
+}
+
+.load-more-error img {
+  width: 4.5rem;
+  height: 5.5rem;
+  object-fit: contain;
+}
+
+.load-more-error h3,
+.load-more-error p {
+  margin: 0;
+}
+
+.load-more-error h3 {
+  color: var(--app-color-ink);
+  font-size: var(--app-font-size-base);
+}
+
+.load-more-error p {
+  margin-top: var(--app-space-1);
+  color: var(--app-color-muted);
+  font-size: var(--app-font-size-sm);
+  line-height: 1.5;
+}
+
+.load-more-error ion-button {
+  margin-top: var(--app-space-3);
+}
+
+.load-more-loading {
+  display: flex;
+  min-height: 5rem;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-3);
+  color: var(--app-color-muted);
+}
+
+.load-more-loading ion-spinner {
+  color: var(--app-color-primary);
+}
+
+.end-message {
+  margin: var(--app-space-7) 0 0;
+  color: var(--app-color-muted);
+  font-size: var(--app-font-size-sm);
+  font-weight: 700;
+  text-align: center;
+}
+
+ion-infinite-scroll {
+  margin-top: var(--app-space-5);
+}
+
+@media (max-width: 30rem) {
+  .load-more-error {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+}

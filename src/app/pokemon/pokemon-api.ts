@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, InjectionToken, Service } from '@angular/core';
-import { catchError, from, map, mergeMap, Observable, of, shareReplay, tap, throwError, toArray } from 'rxjs';
+import { from, map, mergeMap, Observable, of, tap, toArray } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { NamedApiResourceListDto, PokemonDto, PokemonTypeDto } from './pokemon-api.models';
 import { mapPokemon, mapPokemonByType, mapPokemonReferencePage, mapPokemonTypes } from './pokemon-mappers';
@@ -11,71 +11,48 @@ export const POKE_API_BASE_URL = new InjectionToken<string>('POKE_API_BASE_URL',
   factory: () => environment.pokeApiBaseUrl,
 });
 
-export const DEFAULT_DETAIL_CONCURRENCY = 4;
+const DETAIL_REQUEST_CONCURRENCY = 4;
 
 @Service()
 export class PokemonApi {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = inject(POKE_API_BASE_URL).replace(/\/$/, '');
-  private readonly detailCache = new Map<string, Observable<Pokemon>>();
+  private readonly baseUrl = inject(POKE_API_BASE_URL);
+  private readonly detailCache = new Map<string, Pokemon>();
 
   listPokemon(limit: number, offset: number): Observable<PokemonReferencePage> {
-    const params = new HttpParams()
-      .set('limit', limit)
-      .set('offset', offset);
-
     return this.http
-      .get<NamedApiResourceListDto>(`${this.baseUrl}/pokemon`, { params })
+      .get<NamedApiResourceListDto>(`${this.baseUrl}/pokemon`, {
+        params: { limit, offset },
+      })
       .pipe(map((response) => mapPokemonReferencePage(response, limit, offset)));
   }
 
   getPokemon(identifier: number | string): Observable<Pokemon> {
-    const cacheKey = String(identifier).trim().toLowerCase();
-    const cached = this.detailCache.get(cacheKey);
+    const key = String(identifier).toLowerCase();
+    const cached = this.detailCache.get(key);
 
     if (cached) {
-      return cached;
+      return of(cached);
     }
 
-    const request = this.http
-      .get<PokemonDto>(`${this.baseUrl}/pokemon/${encodeURIComponent(cacheKey)}`)
+    return this.http
+      .get<PokemonDto>(`${this.baseUrl}/pokemon/${encodeURIComponent(key)}`)
       .pipe(
         map(mapPokemon),
         tap((pokemon) => {
-          this.detailCache.set(String(pokemon.id), request);
-          this.detailCache.set(pokemon.name.toLowerCase(), request);
+          this.detailCache.set(String(pokemon.id), pokemon);
+          this.detailCache.set(pokemon.name, pokemon);
         }),
-        catchError((error: unknown) => {
-          if (this.detailCache.get(cacheKey) === request) {
-            this.detailCache.delete(cacheKey);
-          }
-          return throwError(() => error);
-        }),
-        shareReplay({ bufferSize: 1, refCount: false }),
       );
-
-    this.detailCache.set(cacheKey, request);
-    return request;
   }
 
-  getPokemonBatch(
-    references: readonly PokemonReference[],
-    concurrency = DEFAULT_DETAIL_CONCURRENCY,
-  ): Observable<Pokemon[]> {
-    if (references.length === 0) {
-      return of([]);
-    }
-
-    if (!Number.isInteger(concurrency) || concurrency < 1) {
-      throw new Error('Detail request concurrency must be a positive integer.');
-    }
-
-    return from(references.map((reference, index) => ({ reference, index }))).pipe(
+  getPokemonBatch(references: readonly PokemonReference[]): Observable<Pokemon[]> {
+    return from(references).pipe(
       mergeMap(
-        ({ reference, index }) => this.getPokemon(reference.id).pipe(
+        (reference, index) => this.getPokemon(reference.id).pipe(
           map((pokemon) => ({ index, pokemon })),
         ),
-        concurrency,
+        DETAIL_REQUEST_CONCURRENCY,
       ),
       toArray(),
       map((results) => results
@@ -91,9 +68,8 @@ export class PokemonApi {
   }
 
   listPokemonByType(type: string): Observable<PokemonReference[]> {
-    const normalizedType = type.trim().toLowerCase();
     return this.http
-      .get<PokemonTypeDto>(`${this.baseUrl}/type/${encodeURIComponent(normalizedType)}`)
+      .get<PokemonTypeDto>(`${this.baseUrl}/type/${encodeURIComponent(type)}`)
       .pipe(map(mapPokemonByType));
   }
 }
