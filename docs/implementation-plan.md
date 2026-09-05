@@ -436,12 +436,12 @@ feat: add infinite scrolling states
 
 ### Phase 4 - Type filtering
 
-- [ ] Load supported Pokémon types.
-- [ ] Build an accessible single-select type filter.
-- [ ] Reset list state when selection changes.
-- [ ] Incrementally render filtered results.
-- [ ] Add filtered empty and error states using `pokemon-error.png` and different recovery actions.
-- [ ] Test selection, clearing, reset, and pagination behavior.
+- [x] Load supported Pokémon types.
+- [x] Build an accessible single-select type filter.
+- [x] Reset list state when selection changes.
+- [x] Incrementally render filtered results.
+- [x] Add filtered empty and error states using `pokemon-error.png` and different recovery actions.
+- [x] Test selection, clearing, reset, and pagination behavior.
 
 Suggested commit:
 

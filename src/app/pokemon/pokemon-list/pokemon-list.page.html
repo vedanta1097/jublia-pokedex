@@ -8,6 +8,35 @@
       </p>
     </section>
 
+    <section class="type-filter" aria-labelledby="type-filter-title">
+      <div>
+        <h2 id="type-filter-title">Filter by type</h2>
+        <p>Choose one type to narrow the Pokédex.</p>
+      </div>
+
+      @if (typesLoading()) {
+        <p class="type-filter__status" role="status">Loading types…</p>
+      } @else if (typesLoadFailed()) {
+        <div class="type-filter__status" role="status">
+          <span>Types could not be loaded.</span>
+          <button type="button" (click)="retryTypes()">Try again</button>
+        </div>
+      } @else {
+        <label for="pokemon-type" class="visually-hidden">Pokémon type</label>
+        <select
+          id="pokemon-type"
+          [value]="selectedType() ?? ''"
+          [disabled]="loading()"
+          (change)="selectType($event)"
+        >
+          <option value="">All types</option>
+          @for (type of types(); track type.name) {
+            <option [value]="type.name">{{ type.displayName }}</option>
+          }
+        </select>
+      }
+    </section>
+
     @if (loading() && pokemon().length === 0) {
       <section class="pokemon-results" aria-labelledby="pokemon-loading-title" aria-busy="true">
         <h2 id="pokemon-loading-title" class="visually-hidden">Loading Pokémon</h2>
@@ -26,22 +55,49 @@
           height="300"
           alt=""
         />
-        <h2 id="pokemon-error-title">We couldn’t load the Pokédex</h2>
-        <p>Check your connection and try again. No Pokémon have been lost.</p>
+        @if (selectedType()) {
+          <h2 id="pokemon-error-title">We couldn’t load {{ selectedTypeLabel() }} Pokémon</h2>
+          <p>Check your connection and try again, or return to all Pokémon.</p>
+        } @else {
+          <h2 id="pokemon-error-title">We couldn’t load the Pokédex</h2>
+          <p>Check your connection and try again. No Pokémon have been lost.</p>
+        }
         <ion-button (click)="retryLoad()">Try again</ion-button>
+        @if (selectedType()) {
+          <button type="button" class="text-button" (click)="clearTypeFilter()">Clear filter</button>
+        }
       </section>
     } @else {
       <section class="pokemon-results" aria-labelledby="pokemon-results-title">
         <div class="results-heading">
           <h2 id="pokemon-results-title">Pokémon</h2>
-          <p>{{ pokemon().length }} loaded</p>
-        </div>
-
-        <div class="pokemon-grid">
-          @for (item of pokemon(); track item.id) {
-            <app-pokemon-card [pokemon]="item" />
+          @if (selectedType()) {
+            <p>{{ selectedTypeLabel() }} · {{ pokemon().length }} loaded</p>
+          } @else {
+            <p>{{ pokemon().length }} loaded</p>
           }
         </div>
+
+        @if (selectedType() && !loading() && !loadFailed() && pokemon().length === 0) {
+          <div class="state-panel state-panel--compact" aria-live="polite">
+            <img
+              class="state-panel__image"
+              src="assets/pokemon-error.png"
+              width="250"
+              height="300"
+              alt=""
+            />
+            <h3>No {{ selectedTypeLabel() }} Pokémon found</h3>
+            <p>Try another type or return to the full Pokédex.</p>
+            <button type="button" class="text-button" (click)="clearTypeFilter()">Clear filter</button>
+          </div>
+        } @else {
+          <div class="pokemon-grid">
+            @for (item of pokemon(); track item.id) {
+              <app-pokemon-card [pokemon]="item" />
+            }
+          </div>
+        }
 
         @if (loadFailed()) {
           <div class="load-more-error" aria-live="polite">
@@ -50,17 +106,20 @@
               <h3>More Pokémon are hiding</h3>
               <p>We kept everything already loaded. Try fetching the next group again.</p>
               <ion-button size="small" (click)="retryLoad()">Try again</ion-button>
+              @if (selectedType()) {
+                <button type="button" class="text-button" (click)="clearTypeFilter()">Clear filter</button>
+              }
             </div>
           </div>
         }
 
-        @if (nextOffset() === null && pokemon().length > 0) {
+        @if (!hasMore() && pokemon().length > 0) {
           <p class="end-message">You’ve reached the end of the Pokédex.</p>
         }
 
         <ion-infinite-scroll
           threshold="180px"
-          [disabled]="nextOffset() === null || loadFailed()"
+          [disabled]="!hasMore() || loadFailed()"
           (ionInfinite)="loadMore($event)"
         >
           <div class="load-more-loading" role="status">

@@ -5,6 +5,7 @@
 - Treat `docs/Jublia AI - Front End Take Home Test.pdf` as the authoritative product brief.
 - Read `docs/implementation-plan.md` before starting implementation work and continue from the next incomplete phase.
 - If the plan conflicts with the take-home brief, follow the brief and update the plan to match.
+- Use the implementation plan for routine phase work. Reopen the PDF only when a requirement is unclear, missing from the plan, or conflicts with it.
 
 ## Project scope
 
