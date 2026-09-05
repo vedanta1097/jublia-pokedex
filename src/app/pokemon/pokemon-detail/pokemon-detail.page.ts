@@ -1,9 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { IonButton, IonContent, IonSpinner } from '@ionic/angular';
+import { IonButton, IonContent, IonIcon, IonSpinner } from '@ionic/angular';
+import { heart, heartOutline } from 'ionicons/icons';
 import { finalize } from 'rxjs';
+import { FavouritesStore } from '../../favourites/favourites-store';
 import { PokemonApi } from '../pokemon-api';
 import { POKEMON_IMAGE_FALLBACK } from '../pokemon-mappers';
 import { Pokemon } from '../pokemon.models';
@@ -13,10 +15,11 @@ import { Pokemon } from '../pokemon.models';
   templateUrl: 'pokemon-detail.page.html',
   styleUrl: 'pokemon-detail.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonButton, IonContent, IonSpinner, RouterLink],
+  imports: [IonButton, IonContent, IonIcon, IonSpinner, RouterLink],
 })
 export class PokemonDetailPage implements OnInit {
   private readonly pokemonApi = inject(PokemonApi);
+  private readonly favourites = inject(FavouritesStore);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly id = input<string>();
@@ -24,6 +27,12 @@ export class PokemonDetailPage implements OnInit {
   protected readonly loading = signal(true);
   protected readonly notFound = signal(false);
   protected readonly loadFailed = signal(false);
+  protected readonly isFavourite = computed(() => {
+    const pokemon = this.pokemon();
+    return pokemon ? this.favourites.isFavourite(pokemon.id) : false;
+  });
+  protected readonly heart = heart;
+  protected readonly heartOutline = heartOutline;
 
   ngOnInit(): void {
     this.loadPokemon();
@@ -31,6 +40,14 @@ export class PokemonDetailPage implements OnInit {
 
   protected retryLoad(): void {
     this.loadPokemon();
+  }
+
+  protected toggleFavourite(): void {
+    const pokemon = this.pokemon();
+
+    if (pokemon) {
+      this.favourites.toggle(pokemon.id);
+    }
   }
 
   protected useFallbackImage(event: Event): void {
@@ -58,7 +75,9 @@ export class PokemonDetailPage implements OnInit {
       takeUntilDestroyed(this.destroyRef),
       finalize(() => this.loading.set(false)),
     ).subscribe({
-      next: (pokemon) => this.pokemon.set(pokemon),
+      next: (pokemon) => {
+        this.pokemon.set(pokemon);
+      },
       error: (error: unknown) => {
         this.notFound.set(error instanceof HttpErrorResponse && error.status === 404);
         this.loadFailed.set(!(error instanceof HttpErrorResponse && error.status === 404));

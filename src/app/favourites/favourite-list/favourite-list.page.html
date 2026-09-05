@@ -8,19 +8,47 @@
       </p>
     </section>
 
-    <section class="placeholder-panel" aria-labelledby="favourite-list-status">
-      <img
-        class="placeholder-panel__image placeholder-panel__image--empty"
-        src="assets/pokemon-error.png"
-        width="250"
-        height="300"
-        alt=""
-      />
-      <h2 id="favourite-list-status" class="placeholder-panel__title">No favourites yet</h2>
-      <p class="placeholder-panel__description">
-        Explore the Pokédex and save the Pokémon you want to find quickly later.
-      </p>
-      <a class="text-link" routerLink="/pokemon">Explore Pokémon</a>
-    </section>
+    @if (loading()) {
+      <section class="favourite-results" aria-labelledby="favourite-loading-title" aria-busy="true">
+        <h2 id="favourite-loading-title" class="visually-hidden">Loading favourites</h2>
+        <div class="pokemon-grid">
+          @for (_ of loadingCards; track $index) {
+            <app-loading-card />
+          }
+        </div>
+      </section>
+    } @else if (loadFailed()) {
+      <section class="state-panel" aria-live="polite">
+        <img class="state-panel__image" src="assets/pokemon-error.png" width="250" height="300" alt="" />
+        <h2>We couldn’t load your favourites</h2>
+        <p>Check your connection and try again.</p>
+        <button type="button" class="text-link" (click)="retryLoad()">Try again</button>
+      </section>
+    } @else if (favouritePokemon().length === 0) {
+      <section class="state-panel" aria-labelledby="favourite-list-status">
+        <img
+          class="state-panel__image favourite-empty-image"
+          src="assets/pokemon-error.png"
+          width="250"
+          height="300"
+          alt=""
+        />
+        <h2 id="favourite-list-status">No favourites yet</h2>
+        <p>Explore the Pokédex and save the Pokémon you want to find quickly later.</p>
+        <a class="text-link" routerLink="/pokemon">Explore Pokémon</a>
+      </section>
+    } @else {
+      <section class="favourite-results" aria-labelledby="favourite-results-title">
+        <div class="results-heading">
+          <h2 id="favourite-results-title">Saved Pokémon</h2>
+          <p>{{ favouritePokemon().length }} saved</p>
+        </div>
+        <div class="pokemon-grid">
+          @for (item of favouritePokemon(); track item.id) {
+            <app-pokemon-card [pokemon]="item" />
+          }
+        </div>
+      </section>
+    }
   </div>
 </ion-content>

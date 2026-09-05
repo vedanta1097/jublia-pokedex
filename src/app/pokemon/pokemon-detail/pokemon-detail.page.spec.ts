@@ -27,6 +27,7 @@ describe('PokemonDetailPage', () => {
   const pokemonApi = { getPokemon: vi.fn() };
 
   beforeEach(() => {
+    localStorage.clear();
     pokemonApi.getPokemon.mockReset();
     TestBed.configureTestingModule({
       imports: [PokemonDetailPage],
@@ -106,5 +107,24 @@ describe('PokemonDetailPage', () => {
     image?.dispatchEvent(new Event('error'));
 
     expect(image?.getAttribute('src')).toBe(POKEMON_IMAGE_FALLBACK);
+  });
+
+  it('adds and removes the Pokémon from favourites', () => {
+    pokemonApi.getPokemon.mockReturnValue(of(PIKACHU));
+    const fixture = TestBed.createComponent(PokemonDetailPage);
+    fixture.componentRef.setInput('id', '25');
+    fixture.detectChanges();
+
+    const element: HTMLElement = fixture.nativeElement;
+    const button = element.querySelector<HTMLButtonElement>('.pokemon-detail__favourite');
+    expect(button?.getAttribute('aria-label')).toBe('Add Pikachu to favourites');
+    expect(button?.getAttribute('aria-pressed')).toBe('false');
+    expect(button?.querySelector('ion-icon')).not.toBeNull();
+
+    button?.click();
+    fixture.detectChanges();
+
+    expect(button?.getAttribute('aria-label')).toBe('Remove Pikachu from favourites');
+    expect(button?.getAttribute('aria-pressed')).toBe('true');
   });
 });

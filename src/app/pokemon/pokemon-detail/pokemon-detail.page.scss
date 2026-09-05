@@ -70,6 +70,29 @@
   line-height: 1;
 }
 
+.pokemon-detail__favourite {
+  display: grid;
+  width: 3rem;
+  min-height: 3rem;
+  place-items: center;
+  margin-top: var(--app-space-4);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #edf0f5;
+  color: #667085;
+  cursor: pointer;
+}
+
+.pokemon-detail__favourite ion-icon {
+  font-size: 1.5rem;
+}
+
+.pokemon-detail__favourite[aria-pressed="true"] {
+  background: #fce7ec;
+  color: #b4233a;
+}
+
 .pokemon-detail__types,
 .abilities {
   display: flex;

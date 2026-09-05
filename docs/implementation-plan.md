@@ -465,12 +465,12 @@ feat: add pokemon detail page
 
 ### Phase 6 - Favourites
 
-- [ ] Implement favourites store using signals.
-- [ ] Persist favourite IDs locally.
-- [ ] Add favourite controls to cards and details.
-- [ ] Build the favourites page and its `pokemon-error.png` empty state.
-- [ ] Keep favourite state synchronized across routes.
-- [ ] Test persistence and add/remove behavior.
+- [x] Implement favourites store using signals.
+- [x] Persist favourite IDs locally.
+- [x] Add favourite controls to cards and details.
+- [x] Build the favourites page and its `pokemon-error.png` empty state.
+- [x] Keep favourite state synchronized across routes.
+- [x] Test persistence and add/remove behavior.
 
 Suggested commits:
 

@@ -22,6 +22,15 @@
         <div class="pokemon-detail__content">
           <p class="page-eyebrow">Pokédex #{{ item.id }}</p>
           <h1 id="pokemon-name">{{ item.displayName }}</h1>
+          <button
+            type="button"
+            class="pokemon-detail__favourite"
+            [attr.aria-label]="(isFavourite() ? 'Remove ' : 'Add ') + item.displayName + (isFavourite() ? ' from favourites' : ' to favourites')"
+            [attr.aria-pressed]="isFavourite()"
+            (click)="toggleFavourite()"
+          >
+            <ion-icon [icon]="isFavourite() ? heart : heartOutline" aria-hidden="true" />
+          </button>
           <ul class="pokemon-detail__types" aria-label="Types">
             @for (type of item.types; track type.name) {
               <li [class]="'type-badge type-badge--' + type.name">{{ type.displayName }}</li>

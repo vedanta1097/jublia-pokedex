@@ -19,6 +19,7 @@ const PIKACHU: Pokemon = {
 
 describe('PokemonCardComponent', () => {
   beforeEach(() => {
+    localStorage.clear();
     TestBed.configureTestingModule({
       imports: [PokemonCardComponent],
       providers: [provideRouter([])],
@@ -50,5 +51,24 @@ describe('PokemonCardComponent', () => {
     image.dispatchEvent(new Event('error'));
 
     expect(image.getAttribute('src')).toBe(POKEMON_IMAGE_FALLBACK);
+  });
+
+  it('adds and removes the Pokémon from favourites', () => {
+    const fixture = TestBed.createComponent(PokemonCardComponent);
+    fixture.componentRef.setInput('pokemon', PIKACHU);
+    fixture.detectChanges();
+
+    const element: HTMLElement = fixture.nativeElement;
+    const button = element.querySelector<HTMLButtonElement>('.pokemon-card__favourite');
+    const icon = button?.querySelector('ion-icon');
+    expect(button?.getAttribute('aria-label')).toBe('Add Pikachu to favourites');
+    expect(button?.getAttribute('aria-pressed')).toBe('false');
+    expect(icon).not.toBeNull();
+
+    button?.click();
+    fixture.detectChanges();
+
+    expect(button?.getAttribute('aria-label')).toBe('Remove Pikachu from favourites');
+    expect(button?.getAttribute('aria-pressed')).toBe('true');
   });
 });
