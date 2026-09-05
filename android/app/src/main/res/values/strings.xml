@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Jublia Pokédex</string>
+    <string name="title_activity_main">Jublia Pokédex</string>
+    <string name="package_name">com.vedanta.jubliapokedex</string>
+    <string name="custom_url_scheme">com.vedanta.jubliapokedex</string>
+</resources>

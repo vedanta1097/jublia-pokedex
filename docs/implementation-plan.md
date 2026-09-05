@@ -481,14 +481,14 @@ feat: add favourites page
 
 ### Phase 7 - Responsive and accessibility pass
 
-- [ ] Compare implementation against the manual Figma mock-up.
-- [ ] Verify mobile, tablet, and desktop layouts.
-- [ ] Test keyboard navigation and visible focus.
-- [ ] Audit labels, alternative text, heading order, and semantics.
-- [ ] Verify text and control contrast, especially every type badge.
-- [ ] Verify loading and error announcements.
-- [ ] Check reduced-motion behavior.
-- [ ] Test at browser zoom up to 200%.
+- [x] Compare implementation against the manual Figma mock-up.
+- [x] Verify mobile, tablet, and desktop layouts.
+- [x] Test keyboard navigation and visible focus.
+- [x] Audit labels, alternative text, heading order, and semantics.
+- [x] Verify text and control contrast, especially every type badge.
+- [x] Verify loading and error announcements.
+- [x] Check reduced-motion behavior.
+- [x] Test at browser zoom up to 200%.
 
 Suggested commit:
 
@@ -498,12 +498,11 @@ fix: improve responsive layout and accessibility
 
 ### Phase 8 - Native platforms
 
-- [ ] Install matching `@capacitor/ios` and `@capacitor/android` packages.
-- [ ] Add the iOS and Android platform projects.
-- [ ] Build the Angular application and run `npx cap sync`.
+- [x] Install matching `@capacitor/ios` and `@capacitor/android` packages.
+- [x] Add the iOS and Android platform projects.
+- [x] Build the Angular application and run `npx cap sync`.
 - [ ] Verify safe areas, status bar, keyboard behavior, navigation, and persistence.
 - [ ] Test at least one iOS simulator and one Android emulator if the local toolchains are available.
-- [ ] Document any platform limitation that cannot be verified locally.
 
 Expected commands:
 
