@@ -53,7 +53,9 @@ body {
   font: inherit;
   font-weight: 700;
   cursor: pointer;
-  transform: translateY(-160%);
+  transform: translateY(
+    calc(-100% - var(--ion-safe-area-top, 0px) - var(--app-space-2))
+  );
   transition: transform 160ms ease;
 }
 
