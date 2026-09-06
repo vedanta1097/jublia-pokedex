@@ -94,4 +94,4 @@ Tests use Vitest, Angular's testing utilities, and controlled API fixtures. They
 | Desktop and mobile web           | Responsive layouts deployed on Vercel                                  |
 | Native iOS and Android           | Committed Capacitor projects generated from the same Ionic Angular app |
 | Documentation and source control | This README, focused tests, and incremental Git history                |
-| Optional Figma prototype         | Link placeholder above; final prototype is still in progress           |
+| Optional Figma prototype         | Linked in the Links section above                                      |
