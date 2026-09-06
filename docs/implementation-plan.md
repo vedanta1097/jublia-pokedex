@@ -501,8 +501,8 @@ fix: improve responsive layout and accessibility
 - [x] Install matching `@capacitor/ios` and `@capacitor/android` packages.
 - [x] Add the iOS and Android platform projects.
 - [x] Build the Angular application and run `npx cap sync`.
-- [ ] Verify safe areas, status bar, keyboard behavior, navigation, and persistence.
-- [ ] Test at least one iOS simulator and one Android emulator if the local toolchains are available.
+- [x] Verify safe areas, status bar, keyboard behavior, navigation, and persistence.
+- [x] Test at least one iOS simulator and one Android emulator if the local toolchains are available.
 
 Expected commands:
 
@@ -528,7 +528,7 @@ fix: polish native platform behavior
 - [x] Write a concise README with prerequisites and exact commands.
 - [x] Explain architecture and important trade-offs.
 - [x] Document web and native run instructions.
-- [ ] Replace the Figma prototype placeholder with the final link when available.
+- [x] Add figma link
 - [x] Add deployment URL.
 - [x] Run the complete verification suite from a clean install.
 - [x] Verify the repository contains no secrets, generated caches, or machine-specific files.
@@ -599,15 +599,14 @@ The application is ready to submit when:
 ## 13. Final Submission Checklist
 
 - [x] Confirm the repository is accessible to the reviewers.
-- [ ] Confirm the latest commit is pushed.
-- [ ] Include repository URL.
+- [x] Confirm the latest commit is pushed.
+- [x] Include repository URL.
 - [x] Include live web URL, if deployed.
-- [ ] Include Figma URL.
+- [x] Include Figma URL.
 - [x] Include local setup instructions in README.
-- [ ] State which native platforms and simulators were verified.
-- [ ] Mention only genuine limitations or incomplete work.
-- [ ] Reply to all recipients on the original assessment email.
-- [ ] Reconfirm the deadline with HR if necessary: the email states "Monday, 7 August 2026, before 11:59 PM Indonesian Time," but 7 August 2026 falls on a Friday.
+- [x] State which native platforms and simulators were verified.
+- [x] Mention only genuine limitations or incomplete work.
+- [x] Reply to all recipients on the original assessment email.
 
 ## 14. Working Principles
 
