@@ -57,7 +57,7 @@ body {
   transition: transform 160ms ease;
 }
 
-.skip-link:focus {
+.skip-link:focus-visible {
   transform: translateY(0);
 }
 
