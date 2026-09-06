@@ -93,7 +93,7 @@ REST is preferred because it is the canonical PokéAPI interface, is sufficient 
 
 The repository is already configured with:
 
-- Angular `22.0.1`.
+- Angular `22.1.5`.
 - Ionic Angular `9.0.x`.
 - Capacitor `8.5.x`.
 - Standalone application bootstrap.
@@ -525,13 +525,13 @@ fix: polish native platform behavior
 
 ### Phase 9 - Documentation and release validation
 
-- [ ] Write a concise README with prerequisites and exact commands.
-- [ ] Explain architecture and important trade-offs.
-- [ ] Document web and native run instructions.
-- [ ] Add the Figma prototype link when available.
-- [ ] Add deployment URL when available.
-- [ ] Run the complete verification suite from a clean install.
-- [ ] Verify the repository contains no secrets, generated caches, or machine-specific files.
+- [x] Write a concise README with prerequisites and exact commands.
+- [x] Explain architecture and important trade-offs.
+- [x] Document web and native run instructions.
+- [ ] Replace the Figma prototype placeholder with the final link when available.
+- [x] Add deployment URL.
+- [x] Run the complete verification suite from a clean install.
+- [x] Verify the repository contains no secrets, generated caches, or machine-specific files.
 
 Suggested commits:
 
@@ -598,12 +598,12 @@ The application is ready to submit when:
 
 ## 13. Final Submission Checklist
 
-- [ ] Confirm the repository is accessible to the reviewers.
+- [x] Confirm the repository is accessible to the reviewers.
 - [ ] Confirm the latest commit is pushed.
 - [ ] Include repository URL.
-- [ ] Include live web URL, if deployed.
+- [x] Include live web URL, if deployed.
 - [ ] Include Figma URL.
-- [ ] Include local setup instructions in README.
+- [x] Include local setup instructions in README.
 - [ ] State which native platforms and simulators were verified.
 - [ ] Mention only genuine limitations or incomplete work.
 - [ ] Reply to all recipients on the original assessment email.

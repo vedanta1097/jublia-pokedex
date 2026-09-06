@@ -83,7 +83,7 @@ describe('PokemonCardComponent', () => {
       message: 'Pikachu added to favourites',
       duration: 1000,
       position: 'bottom',
-      color: 'success',
+      color: 'secondary',
     });
     await vi.waitFor(() => expect(toast.present).toHaveBeenCalledOnce());
 
@@ -97,7 +97,7 @@ describe('PokemonCardComponent', () => {
       message: 'Pikachu removed from favourites',
       duration: 1000,
       position: 'bottom',
-      color: 'success',
+      color: 'secondary',
     });
     await vi.waitFor(() => expect(toast.present).toHaveBeenCalledOnce());
   });

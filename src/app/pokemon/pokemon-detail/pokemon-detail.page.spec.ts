@@ -139,7 +139,7 @@ describe('PokemonDetailPage', () => {
       message: 'Pikachu added to favourites',
       duration: 1000,
       position: 'bottom',
-      color: 'success',
+      color: 'secondary',
     });
     await vi.waitFor(() => expect(toast.present).toHaveBeenCalledOnce());
 
@@ -153,7 +153,7 @@ describe('PokemonDetailPage', () => {
       message: 'Pikachu removed from favourites',
       duration: 1000,
       position: 'bottom',
-      color: 'success',
+      color: 'secondary',
     });
     await vi.waitFor(() => expect(toast.present).toHaveBeenCalledOnce());
   });
