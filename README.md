@@ -6,7 +6,8 @@ A responsive Pokédex built with Angular 22, Ionic 9, and Capacitor 8. It uses t
 
 - [Live web app](https://jublia-pokedex.vercel.app/)
 - [Figma prototype](https://www.figma.com/design/1wJBQrOft6jKihihCOzPkg/Jublia-Pokedex?node-id=0-1&t=7tiboYoEzItWzmBz-1)
-- [Testing video on Android device](https://drive.google.com/drive/folders/1ihUJg0oxbBrvQCvR00UmZXrot342isK2?usp=sharing)
+- [Android testing video](https://drive.google.com/file/d/1-tT0m5Hhi2kyr1eZLJ5KuLsgA0zezbJu/view?usp=drive_link)
+- [iOS testing video](https://drive.google.com/file/d/1btPpwF_C14L3dP8jtd89mh2qNfHe0Ue2/view?usp=drive_link)
 
 ## Features
 
