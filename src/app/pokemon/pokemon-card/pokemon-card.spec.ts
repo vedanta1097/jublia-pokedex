@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { ToastController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { POKEMON_IMAGE_FALLBACK } from '../pokemon-mappers';
 import { Pokemon } from '../pokemon.models';
 import { PokemonCardComponent } from './pokemon-card';
@@ -18,11 +19,19 @@ const PIKACHU: Pokemon = {
 };
 
 describe('PokemonCardComponent', () => {
+  const toast = { present: vi.fn().mockResolvedValue(undefined) };
+  const toastController = { create: vi.fn().mockResolvedValue(toast) };
+
   beforeEach(() => {
     localStorage.clear();
+    toast.present.mockClear();
+    toastController.create.mockClear();
     TestBed.configureTestingModule({
       imports: [PokemonCardComponent],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        { provide: ToastController, useValue: toastController },
+      ],
     });
   });
 
@@ -53,7 +62,7 @@ describe('PokemonCardComponent', () => {
     expect(image.getAttribute('src')).toBe(POKEMON_IMAGE_FALLBACK);
   });
 
-  it('adds and removes the Pokémon from favourites', () => {
+  it('updates favourites and shows confirmation feedback', async () => {
     const fixture = TestBed.createComponent(PokemonCardComponent);
     fixture.componentRef.setInput('pokemon', PIKACHU);
     fixture.detectChanges();
@@ -70,5 +79,26 @@ describe('PokemonCardComponent', () => {
 
     expect(button?.getAttribute('aria-label')).toBe('Remove Pikachu from favourites');
     expect(button?.getAttribute('aria-pressed')).toBe('true');
+    expect(toastController.create).toHaveBeenCalledWith({
+      message: 'Pikachu added to favourites',
+      duration: 1000,
+      position: 'bottom',
+      color: 'success',
+    });
+    await vi.waitFor(() => expect(toast.present).toHaveBeenCalledOnce());
+
+    toast.present.mockClear();
+    toastController.create.mockClear();
+    button?.click();
+    fixture.detectChanges();
+
+    expect(button?.getAttribute('aria-pressed')).toBe('false');
+    expect(toastController.create).toHaveBeenCalledWith({
+      message: 'Pikachu removed from favourites',
+      duration: 1000,
+      position: 'bottom',
+      color: 'success',
+    });
+    await vi.waitFor(() => expect(toast.present).toHaveBeenCalledOnce());
   });
 });

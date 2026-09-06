@@ -10,13 +10,15 @@ export class FavouritesStore {
     return this.ids().includes(id);
   }
 
-  toggle(id: number): void {
-    const ids = this.isFavourite(id)
-      ? this.ids().filter((favouriteId) => favouriteId !== id)
-      : [...this.ids(), id];
+  toggle(id: number): boolean {
+    const isAddingToFavorites = !this.isFavourite(id);
+    const ids = isAddingToFavorites
+      ? [...this.ids(), id]
+      : this.ids().filter((favouriteId) => favouriteId !== id);
 
     this.ids.set(ids);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    return isAddingToFavorites;
   }
 
   private readIds(): number[] {

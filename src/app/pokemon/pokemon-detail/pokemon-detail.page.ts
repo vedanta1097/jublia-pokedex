@@ -1,8 +1,23 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { IonButton, IonContent, IonIcon, IonSpinner } from '@ionic/angular';
+import {
+  IonButton,
+  IonContent,
+  IonIcon,
+  IonSpinner,
+  ToastController,
+} from '@ionic/angular';
 import { heart, heartOutline } from 'ionicons/icons';
 import { finalize } from 'rxjs';
 import { FavouritesStore } from '../../favourites/favourites-store';
@@ -21,6 +36,7 @@ export class PokemonDetailPage implements OnInit {
   private readonly pokemonApi = inject(PokemonApi);
   private readonly favourites = inject(FavouritesStore);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly toastController = inject(ToastController);
 
   readonly id = input<string>();
   protected readonly pokemon = signal<Pokemon | null>(null);
@@ -42,11 +58,19 @@ export class PokemonDetailPage implements OnInit {
     this.loadPokemon();
   }
 
-  protected toggleFavourite(): void {
+  protected async toggleFavourite(): Promise<void> {
     const pokemon = this.pokemon();
 
     if (pokemon) {
-      this.favourites.toggle(pokemon.id);
+      const added = this.favourites.toggle(pokemon.id);
+      const toast = await this.toastController.create({
+        message: `${pokemon.displayName} ${added ? 'added to' : 'removed from'} favourites`,
+        duration: 1000,
+        position: 'bottom',
+        color: 'secondary',
+      });
+
+      await toast.present();
     }
   }
 
@@ -71,17 +95,24 @@ export class PokemonDetailPage implements OnInit {
     this.notFound.set(false);
     this.loadFailed.set(false);
 
-    this.pokemonApi.getPokemon(id).pipe(
-      takeUntilDestroyed(this.destroyRef),
-      finalize(() => this.loading.set(false)),
-    ).subscribe({
-      next: (pokemon) => {
-        this.pokemon.set(pokemon);
-      },
-      error: (error: unknown) => {
-        this.notFound.set(error instanceof HttpErrorResponse && error.status === 404);
-        this.loadFailed.set(!(error instanceof HttpErrorResponse && error.status === 404));
-      },
-    });
+    this.pokemonApi
+      .getPokemon(id)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.loading.set(false)),
+      )
+      .subscribe({
+        next: (pokemon) => {
+          this.pokemon.set(pokemon);
+        },
+        error: (error: unknown) => {
+          this.notFound.set(
+            error instanceof HttpErrorResponse && error.status === 404,
+          );
+          this.loadFailed.set(
+            !(error instanceof HttpErrorResponse && error.status === 404),
+          );
+        },
+      });
   }
 }

@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { of, Subject, throwError } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { PokemonApi } from '../pokemon-api';
@@ -25,13 +26,21 @@ const PIKACHU: Pokemon = {
 
 describe('PokemonDetailPage', () => {
   const pokemonApi = { getPokemon: vi.fn() };
+  const toast = { present: vi.fn().mockResolvedValue(undefined) };
+  const toastController = { create: vi.fn().mockResolvedValue(toast) };
 
   beforeEach(() => {
     localStorage.clear();
     pokemonApi.getPokemon.mockReset();
+    toast.present.mockClear();
+    toastController.create.mockClear();
     TestBed.configureTestingModule({
       imports: [PokemonDetailPage],
-      providers: [provideRouter([]), { provide: PokemonApi, useValue: pokemonApi }],
+      providers: [
+        provideRouter([]),
+        { provide: PokemonApi, useValue: pokemonApi },
+        { provide: ToastController, useValue: toastController },
+      ],
     });
   });
 
@@ -109,7 +118,7 @@ describe('PokemonDetailPage', () => {
     expect(image?.getAttribute('src')).toBe(POKEMON_IMAGE_FALLBACK);
   });
 
-  it('adds and removes the Pokémon from favourites', () => {
+  it('updates favourites and shows confirmation feedback', async () => {
     pokemonApi.getPokemon.mockReturnValue(of(PIKACHU));
     const fixture = TestBed.createComponent(PokemonDetailPage);
     fixture.componentRef.setInput('id', '25');
@@ -126,5 +135,26 @@ describe('PokemonDetailPage', () => {
 
     expect(button?.getAttribute('aria-label')).toBe('Remove Pikachu from favourites');
     expect(button?.getAttribute('aria-pressed')).toBe('true');
+    expect(toastController.create).toHaveBeenCalledWith({
+      message: 'Pikachu added to favourites',
+      duration: 1000,
+      position: 'bottom',
+      color: 'success',
+    });
+    await vi.waitFor(() => expect(toast.present).toHaveBeenCalledOnce());
+
+    toast.present.mockClear();
+    toastController.create.mockClear();
+    button?.click();
+    fixture.detectChanges();
+
+    expect(button?.getAttribute('aria-pressed')).toBe('false');
+    expect(toastController.create).toHaveBeenCalledWith({
+      message: 'Pikachu removed from favourites',
+      duration: 1000,
+      position: 'bottom',
+      color: 'success',
+    });
+    await vi.waitFor(() => expect(toast.present).toHaveBeenCalledOnce());
   });
 });
